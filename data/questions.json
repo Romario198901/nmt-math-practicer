@@ -1,0 +1,121 @@
+[
+  {
+    "id": "numbers-001",
+    "category": "numbers",
+    "subcategory": "fractions",
+    "difficulty": "easy",
+    "type": "single",
+    "question": "Обчисліть: 3/4 + 1/2",
+    "options": ["1", "5/4", "3/8", "7/4"],
+    "correctAnswer": ["5/4"],
+    "explanation": "Зводимо дроби до спільного знаменника: 3/4 + 2/4 = 5/4.",
+    "points": 1
+  },
+  {
+    "id": "percentages-001",
+    "category": "percentages",
+    "subcategory": "percentage-of-number",
+    "difficulty": "easy",
+    "type": "single",
+    "question": "Знайдіть 20% від числа 350.",
+    "options": ["35", "50", "70", "90"],
+    "correctAnswer": ["70"],
+    "explanation": "20% = 0,2. Отже, 350 × 0,2 = 70.",
+    "points": 1
+  },
+  {
+    "id": "algebra-001",
+    "category": "algebra",
+    "subcategory": "linear-equations",
+    "difficulty": "easy",
+    "type": "single",
+    "question": "Розв'яжіть рівняння: 3x - 7 = 11.",
+    "options": ["4", "6", "8", "12"],
+    "correctAnswer": ["6"],
+    "explanation": "3x = 18, тому x = 6.",
+    "points": 1
+  },
+  {
+    "id": "algebra-002",
+    "category": "algebra",
+    "subcategory": "quadratic-equations",
+    "difficulty": "medium",
+    "type": "single",
+    "question": "Яке з чисел є коренем рівняння x² - 5x + 6 = 0?",
+    "options": ["0", "1", "2", "6"],
+    "correctAnswer": ["2"],
+    "explanation": "x² - 5x + 6 = (x - 2)(x - 3), тому корені рівняння — 2 і 3.",
+    "points": 1
+  },
+  {
+    "id": "powers-001",
+    "category": "powers",
+    "subcategory": "exponents",
+    "difficulty": "easy",
+    "type": "short",
+    "question": "Обчисліть значення виразу 2³ × 2².",
+    "correctAnswer": ["32"],
+    "explanation": "2³ × 2² = 2⁵ = 32.",
+    "points": 1
+  },
+  {
+    "id": "geometry-001",
+    "category": "geometry",
+    "subcategory": "triangle",
+    "difficulty": "easy",
+    "type": "single",
+    "question": "Два кути трикутника дорівнюють 45° і 65°. Знайдіть третій кут.",
+    "options": ["60°", "70°", "80°", "110°"],
+    "correctAnswer": ["70°"],
+    "explanation": "Сума кутів трикутника дорівнює 180°. 180° - 45° - 65° = 70°.",
+    "points": 1
+  },
+  {
+    "id": "geometry-002",
+    "category": "geometry",
+    "subcategory": "rectangle",
+    "difficulty": "easy",
+    "type": "short",
+    "question": "Прямокутник має сторони 6 см і 8 см. Знайдіть його площу в см².",
+    "correctAnswer": ["48"],
+    "explanation": "Площа прямокутника: S = ab = 6 × 8 = 48 см².",
+    "formula": "S = ab",
+    "points": 1
+  },
+  {
+    "id": "functions-001",
+    "category": "functions",
+    "subcategory": "linear-function",
+    "difficulty": "medium",
+    "type": "single",
+    "question": "Функцію задано формулою y = 2x - 3. Знайдіть значення y, якщо x = 4.",
+    "options": ["2", "5", "8", "11"],
+    "correctAnswer": ["5"],
+    "explanation": "Підставляємо x = 4: y = 2 × 4 - 3 = 5.",
+    "points": 1
+  },
+  {
+    "id": "probability-001",
+    "category": "probability",
+    "subcategory": "classical-probability",
+    "difficulty": "medium",
+    "type": "single",
+    "question": "У коробці є 3 червоні та 2 сині кульки. Навмання витягують одну кульку. Яка ймовірність того, що вона буде синьою?",
+    "options": ["1/5", "2/5", "3/5", "2/3"],
+    "correctAnswer": ["2/5"],
+    "explanation": "Усього є 5 кульок, з них 2 сині. Тому ймовірність дорівнює 2/5.",
+    "points": 1
+  },
+  {
+    "id": "word-problems-001",
+    "category": "word-problems",
+    "subcategory": "motion",
+    "difficulty": "medium",
+    "type": "short",
+    "question": "Автомобіль рухається зі швидкістю 60 км/год. Яку відстань у кілометрах він подолає за 2,5 години?",
+    "correctAnswer": ["150"],
+    "explanation": "Відстань s = vt. Отже, 60 × 2,5 = 150 км.",
+    "formula": "s = vt",
+    "points": 1
+  }
+]
