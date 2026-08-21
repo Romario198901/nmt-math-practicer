@@ -3,13 +3,18 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import Container from "@/components/Container/Container";
 import QuestionCard from "@/components/QuestionCard/QuestionCard";
+
 import { usePractice } from "@/hooks/usePractice";
 import { usePracticeTimer } from "@/hooks/usePracticeTimer";
+
 import { usePracticeSessionStore } from "@/stores/usePracticeSessionStore";
 import { usePracticeSettingsStore } from "@/stores/usePracticeSettingsStore";
 
-export default function PracticePage() {
+import styles from "./PracticePageClient.module.css";
+
+export default function PracticePageClient() {
   const router = useRouter();
 
   const questions = usePracticeSessionStore((state) => state.questions);
@@ -41,11 +46,13 @@ export default function PracticePage() {
       return;
     }
 
-    const timeout = setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       goToNextQuestion();
     }, 2000);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      window.clearTimeout(timeout);
+    };
   }, [ultimateMode, isAnswered, isLastQuestion, goToNextQuestion]);
 
   const handleFinish = () => {
@@ -65,51 +72,107 @@ export default function PracticePage() {
 
   if (!hasHydrated) {
     return (
-      <main>
-        <p>Завантаження...</p>
+      <main className={styles.page}>
+        <Container>
+          <p className={styles.message}>Завантаження тренування...</p>
+        </Container>
       </main>
     );
   }
 
   if (!currentQuestion) {
     return (
-      <main>
-        <p>Сесію не знайдено.</p>
+      <main className={styles.page}>
+        <Container>
+          <div className={styles.emptyState}>
+            <h1 className={styles.emptyTitle}>Активну сесію не знайдено</h1>
+
+            <p className={styles.message}>
+              Поверніться на головну сторінку та запустіть нове тренування.
+            </p>
+
+            <button
+              className={styles.primaryButton}
+              type="button"
+              onClick={() => router.push("/")}
+            >
+              На головну
+            </button>
+          </div>
+        </Container>
       </main>
     );
   }
 
+  const progress = ((currentIndex + 1) / questions.length) * 100;
+
   return (
-    <main>
-      <p>Час: {formattedTime}</p>
+    <main className={styles.page}>
+      <Container className={styles.container}>
+        <section className={styles.practice}>
+          <header className={styles.header}>
+            <div>
+              <p className={styles.label}>Завдання</p>
 
-      <p>
-        Завдання {currentIndex + 1} з {questions.length}
-      </p>
+              <p className={styles.progressText}>
+                {currentIndex + 1} з {questions.length}
+              </p>
+            </div>
 
-      <QuestionCard
-        question={currentQuestion}
-        selectedAnswer={selectedAnswer}
-        isAnswered={isAnswered}
-        isCorrect={isCorrect}
-        onAnswer={checkAnswer}
-      />
+            <div className={styles.timer}>
+              <span className={styles.timerLabel}>Час</span>
 
-      {ultimateMode && isAnswered && !isLastQuestion && (
-        <p>Наступне питання через 2 секунди...</p>
-      )}
+              <strong className={styles.timerValue}>{formattedTime}</strong>
+            </div>
+          </header>
 
-      {isAnswered && !isLastQuestion && !ultimateMode && (
-        <button type="button" onClick={goToNextQuestion}>
-          Далі
-        </button>
-      )}
+          <div className={styles.progressBar} aria-hidden="true">
+            <div
+              className={styles.progressValue}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
 
-      {isAnswered && isLastQuestion && (
-        <button type="button" onClick={handleFinish}>
-          Завершити
-        </button>
-      )}
+          <div className={styles.cardWrapper}>
+            <QuestionCard
+              key={currentQuestion.id}
+              question={currentQuestion}
+              selectedAnswer={selectedAnswer}
+              isAnswered={isAnswered}
+              isCorrect={isCorrect}
+              onAnswer={checkAnswer}
+            />
+          </div>
+
+          <footer className={styles.footer}>
+            {ultimateMode && isAnswered && !isLastQuestion && (
+              <p className={styles.ultimateMessage}>
+                Наступне питання через 2 секунди...
+              </p>
+            )}
+
+            {isAnswered && !isLastQuestion && !ultimateMode && (
+              <button
+                className={styles.primaryButton}
+                type="button"
+                onClick={goToNextQuestion}
+              >
+                Далі
+              </button>
+            )}
+
+            {isAnswered && isLastQuestion && (
+              <button
+                className={styles.primaryButton}
+                type="button"
+                onClick={handleFinish}
+              >
+                Завершити
+              </button>
+            )}
+          </footer>
+        </section>
+      </Container>
     </main>
   );
 }

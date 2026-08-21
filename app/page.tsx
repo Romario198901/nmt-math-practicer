@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import PracticeSetup from "@/components/PracticeSetup/PracticeSetup";
+import Container from "@/components/Container/Container";
 
 export const metadata: Metadata = {
   title: "НМТ Математика — тренажер",
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      <PracticeSetup />
+      <Container>
+        <PracticeSetup />
+      </Container>
     </main>
   );
 }

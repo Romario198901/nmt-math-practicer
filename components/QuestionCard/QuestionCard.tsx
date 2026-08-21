@@ -1,8 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import type { Question } from '@/types/question';
+import type { Question } from "@/types/question";
+
+import { getCategoryLabel } from "@/utils/getCategoryLabel";
+
+import styles from "./QuestionCard.module.css";
 
 interface QuestionCardProps {
   question: Question;
@@ -19,43 +23,67 @@ export default function QuestionCard({
   isCorrect,
   onAnswer,
 }: QuestionCardProps) {
-  const [shortAnswer, setShortAnswer] = useState('');
+  const [shortAnswer, setShortAnswer] = useState("");
+
+  const handleShortAnswer = () => {
+    if (!shortAnswer.trim()) {
+      return;
+    }
+
+    onAnswer(shortAnswer);
+  };
 
   return (
-    <section>
-      <h2>{question.question}</h2>
+    <article className={styles.card}>
+      <div className={styles.header}>
+        <p className={styles.category}>{getCategoryLabel(question.category)}</p>
 
-      {question.type === 'single' && question.options && (
-        <div>
-          {question.options.map(option => (
-            <button
-              key={option}
-              type="button"
-              disabled={isAnswered}
-              onClick={() => onAnswer(option)}
-            >
-              {option}
-            </button>
-          ))}
+        <h1 className={styles.question}>{question.question}</h1>
+      </div>
+
+      {question.type === "single" && question.options && (
+        <div className={styles.answers}>
+          {question.options.map((option) => {
+            const isSelected = selectedAnswer === option;
+
+            return (
+              <button
+                key={option}
+                className={`${styles.answerButton} ${
+                  isSelected ? styles.selectedAnswer : ""
+                }`}
+                type="button"
+                disabled={isAnswered}
+                onClick={() => onAnswer(option)}
+              >
+                {option}
+              </button>
+            );
+          })}
         </div>
       )}
 
-      {question.type === 'short' && (
-        <div>
+      {question.type === "short" && (
+        <div className={styles.shortAnswer}>
           <input
+            className={styles.input}
             type="text"
             value={shortAnswer}
             disabled={isAnswered}
             placeholder="Введіть відповідь"
-            onChange={event =>
-              setShortAnswer(event.target.value)
-            }
+            onChange={(event) => setShortAnswer(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleShortAnswer();
+              }
+            }}
           />
 
           <button
+            className={styles.submitButton}
             type="button"
             disabled={!shortAnswer.trim() || isAnswered}
-            onClick={() => onAnswer(shortAnswer)}
+            onClick={handleShortAnswer}
           >
             Відповісти
           </button>
@@ -63,27 +91,22 @@ export default function QuestionCard({
       )}
 
       {isAnswered && (
-        <div>
-          <p>
-            {isCorrect
-              ? 'Правильна відповідь'
-              : 'Неправильна відповідь'}
-          </p>
+        <div
+          className={`${styles.feedback} ${
+            isCorrect ? styles.success : styles.error
+          }`}
+        >
+          <strong>
+            {isCorrect ? "Правильна відповідь" : "Неправильна відповідь"}
+          </strong>
 
           {!isCorrect && (
-            <p>
-              Правильна відповідь:{' '}
-              {question.correctAnswer.join(', ')}
-            </p>
+            <p>Правильна відповідь: {question.correctAnswer.join(", ")}</p>
           )}
 
           <p>{question.explanation}</p>
         </div>
       )}
-
-      {selectedAnswer && (
-        <p>Ваша відповідь: {selectedAnswer}</p>
-      )}
-    </section>
+    </article>
   );
 }
