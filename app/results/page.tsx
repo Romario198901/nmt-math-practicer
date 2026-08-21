@@ -1,64 +1,13 @@
-"use client";
+import type { Metadata } from "next";
 
-import { useRouter } from "next/navigation";
+import ResultsPageClient from "@/components/ResultsPageClient/ResultsPageClient";
 
-interface PracticeResult {
-  total: number;
-  correct: number;
-  totalTime: number;
-}
+export const metadata: Metadata = {
+  title: "Результати",
+  description:
+    "Перегляньте результат тренування з математики: кількість правильних відповідей, відсоток успішності та середній час виконання завдання.",
+};
 
 export default function ResultsPage() {
-  const router = useRouter();
-
-  const rawResult =
-    typeof window !== "undefined"
-      ? sessionStorage.getItem("nmt-practice-result")
-      : null;
-
-  const result: PracticeResult | null = rawResult
-    ? JSON.parse(rawResult)
-    : null;
-
-  const handleRestart = () => {
-    sessionStorage.removeItem("nmt-practice-result");
-
-    router.push("/");
-  };
-
-  if (!result) {
-    return (
-      <main>
-        <p>Результат не знайдено.</p>
-
-        <button type="button" onClick={() => router.push("/")}>
-          На головну
-        </button>
-      </main>
-    );
-  }
-
-  const percentage = Math.round((result.correct / result.total) * 100);
-
-  const averageTime = Math.round(result.totalTime / result.total);
-
-  return (
-    <main>
-      <h1>Результат</h1>
-
-      <p>
-        Правильних відповідей: {result.correct} з {result.total}
-      </p>
-
-      <p>Результат: {percentage}%</p>
-
-      <p>Загальний час: {result.totalTime} с</p>
-
-      <p>Середній час на завдання: {averageTime} с</p>
-
-      <button type="button" onClick={handleRestart}>
-        Пройти ще раз
-      </button>
-    </main>
-  );
+  return <ResultsPageClient />;
 }
