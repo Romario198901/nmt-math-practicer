@@ -1,17 +1,21 @@
-import { checkAnswer } from '@/utils/checkAnswer';
-import { usePracticeSessionStore } from '@/stores/usePracticeSessionStore';
+import { getCurrentUser } from "@/services/authApi";
+import { createTaskResult } from "@/services/taskResultsApi";
 
-import type { Question } from '@/types/question';
+import { usePracticeSessionStore } from "@/stores/usePracticeSessionStore";
 
-export const usePractice = (
-  questions: Question[]
-) => {
+import { checkAnswer } from "@/utils/checkAnswer";
+
+import type { Question } from "@/types/question";
+
+export const usePractice = (questions: Question[]) => {
   const {
+    sessionId,
     currentIndex,
     selectedAnswer,
     isAnswered,
     isCorrect,
     correctAnswersCount,
+    currentQuestionStartedAt,
     setAnswerResult,
     incrementCorrectAnswers,
     goToNextQuestion,
@@ -19,25 +23,57 @@ export const usePractice = (
 
   const currentQuestion = questions[currentIndex];
 
-  const handleAnswer = (answer: string) => {
-    if (!currentQuestion || isAnswered) {
+  const handleAnswer = async (answer: string) => {
+    if (!currentQuestion || isAnswered || !sessionId) {
       return;
     }
 
-    const correct = checkAnswer(
-      answer,
-      currentQuestion.correctAnswer
-    );
+    const user = getCurrentUser();
 
-    setAnswerResult(answer, correct);
+    if (!user) {
+      console.error("Anonymous user not found.");
 
-    if (correct) {
-      incrementCorrectAnswers();
+      return;
+    }
+
+    const correct = checkAnswer(answer, currentQuestion.correctAnswer);
+
+    const answeredAt = Date.now();
+
+    const responseTime = currentQuestionStartedAt
+      ? Math.max(0, Math.floor((answeredAt - currentQuestionStartedAt) / 1000))
+      : 0;
+
+    try {
+      await createTaskResult({
+        userId: user.uid,
+
+        sessionId,
+
+        taskId: currentQuestion.id,
+
+        themeId: currentQuestion.themeId,
+
+        answer,
+
+        isCorrect: correct,
+
+        responseTime,
+
+        answeredAt,
+      });
+
+      setAnswerResult(answer, correct);
+
+      if (correct) {
+        incrementCorrectAnswers();
+      }
+    } catch (error) {
+      console.error("Failed to save task result:", error);
     }
   };
 
-  const isLastQuestion =
-    currentIndex === questions.length - 1;
+  const isLastQuestion = currentIndex === questions.length - 1;
 
   return {
     currentQuestion,

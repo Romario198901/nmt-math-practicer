@@ -1,0 +1,254 @@
+.page {
+  min-height: 100dvh;
+  padding-block: 1rem;
+}
+
+.wrapper {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.375rem;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.title {
+  margin-bottom: 0.5rem;
+
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.description,
+.message {
+  color: var(--color-text-secondary);
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 1rem;
+
+  background-color: var(--color-surface);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.summary strong {
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.summary span {
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background-color: var(--color-surface);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.status {
+  display: inline-flex;
+
+  margin-bottom: 0.5rem;
+  padding: 0.1875rem 0.5rem;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  border-radius: 999px;
+}
+
+.mastered {
+  color: var(--color-success);
+  background-color: var(--color-success-background);
+}
+
+.learning {
+  color: var(--color-primary);
+  background-color: rgb(37 99 235 / 10%);
+}
+
+.weak {
+  color: var(--color-error);
+  background-color: var(--color-error-background);
+}
+
+.insufficient,
+.untested {
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+}
+
+.cardTitle {
+  margin-bottom: 0.25rem;
+
+  font-size: 1.125rem;
+}
+
+.level {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.progressInfo strong {
+  color: var(--color-text-primary);
+}
+
+.progressBar {
+  height: 0.5rem;
+
+  overflow: hidden;
+
+  background-color: var(--color-border);
+  border-radius: 999px;
+}
+
+.progressValue {
+  height: 100%;
+
+  background-color: var(--color-primary);
+  border-radius: inherit;
+
+  transition: width var(--transition-main);
+}
+
+.button,
+.secondaryButton {
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+
+  font-weight: 600;
+
+  border-radius: var(--radius-md);
+}
+
+.button {
+  color: var(--color-text-light);
+
+  background-color: var(--color-primary);
+  border: 0;
+}
+
+.button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.secondaryButton {
+  color: var(--color-text-primary);
+
+  background-color: var(--color-surface);
+  border: 0.0625rem solid var(--color-border);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.error {
+  padding: 0.75rem 1rem;
+
+  color: var(--color-error);
+
+  background-color: var(--color-error-background);
+
+  border-radius: var(--radius-md);
+}
+.lockedCard {
+  opacity: 0.7;
+}
+
+.locked {
+  color: var(--color-text-secondary);
+  background-color: var(--color-border);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+
+  color: var(--color-text-secondary);
+  background-color: var(--color-border);
+
+  opacity: 1;
+}
+
+.prerequisites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.prerequisites p {
+  width: 100%;
+}
+
+.prerequisite {
+  padding: 0.25rem 0.5rem;
+
+  background-color: var(--color-background);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 999px;
+}
+@media screen and (min-width: 48rem) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .summary {
+    min-width: 12rem;
+    align-items: center;
+
+    text-align: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 75rem) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

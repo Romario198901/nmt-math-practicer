@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 import type { PracticeSettings } from "@/types/practice";
 
 interface PracticeSettingsStore extends PracticeSettings {
-  setTopic: (topic: PracticeSettings["topic"]) => void;
+  setThemeId: (themeId: PracticeSettings["themeId"]) => void;
   setQuestionsCount: (count: number) => void;
   setDifficulty: (difficulty: PracticeSettings["difficulty"]) => void;
   setQuestionType: (questionType: PracticeSettings["questionType"]) => void;
@@ -15,7 +15,7 @@ interface PracticeSettingsStore extends PracticeSettings {
 }
 
 const initialSettings: PracticeSettings = {
-  topic: "all",
+  themeId: "all",
   questionsCount: 10,
   difficulty: "all",
   questionType: "all",
@@ -29,7 +29,7 @@ export const usePracticeSettingsStore = create<PracticeSettingsStore>()(
     (set) => ({
       ...initialSettings,
 
-      setTopic: (topic) => set({ topic }),
+      setThemeId: (themeId) => set({ themeId }),
 
       setQuestionsCount: (questionsCount) => set({ questionsCount }),
 

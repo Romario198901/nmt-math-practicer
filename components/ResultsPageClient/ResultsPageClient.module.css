@@ -10,10 +10,10 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 
   width: 100%;
-  max-width: 43.75rem;
+  max-width: 56rem;
 
   margin-inline: auto;
   padding: 1.5rem;
@@ -97,6 +97,26 @@
   font-variant-numeric: tabular-nums;
 }
 
+.recommendationsSection {
+  min-width: 0;
+}
+
+.loadingMessage {
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.error {
+  padding: 0.75rem 1rem;
+
+  font-size: 0.875rem;
+  color: var(--color-error);
+
+  background-color: var(--color-error-background);
+
+  border-radius: var(--radius-md);
+}
+
 .actions {
   display: grid;
   grid-template-columns: 1fr;
@@ -104,7 +124,8 @@
 }
 
 .primaryButton,
-.secondaryButton {
+.secondaryButton,
+.progressButton {
   min-height: 2.875rem;
   padding-inline: 1.25rem;
 
@@ -125,23 +146,39 @@
   border: 0;
 }
 
-.primaryButton:hover {
+.primaryButton:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
 }
 
-.primaryButton:active {
+.primaryButton:active:not(:disabled) {
   background-color: var(--color-primary-active);
 }
+.progressButton {
+  color: var(--color-primary);
 
+  background-color: var(--color-surface);
+  border: 0.0625rem solid var(--color-primary);
+}
+
+.progressButton:hover:not(:disabled) {
+  color: var(--color-text-light);
+  background-color: var(--color-primary);
+}
 .secondaryButton {
   color: var(--color-text-primary);
 
   background-color: var(--color-background);
+
   border: 0.0625rem solid var(--color-border);
 }
 
-.secondaryButton:hover {
+.secondaryButton:hover:not(:disabled) {
   background-color: var(--color-border);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  opacity: 0.6;
 }
 
 .emptyState {
@@ -158,28 +195,15 @@
 
 @media screen and (min-width: 48rem) {
   .page {
-    display: flex;
-
-    height: 100dvh;
-    min-height: 0;
     padding-block: 0.75rem;
-
-    overflow: hidden;
   }
 
   .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 100%;
-    min-height: 0;
+    min-height: calc(100dvh - 1.5rem);
   }
 
   .card {
-    gap: 1.25rem;
-
-    padding: 2rem;
+    padding: 1.75rem 2rem;
   }
 
   .title {
@@ -198,6 +222,6 @@
   }
 
   .actions {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

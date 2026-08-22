@@ -11,11 +11,16 @@ import { usePracticeTimer } from "@/hooks/usePracticeTimer";
 
 import { usePracticeSessionStore } from "@/stores/usePracticeSessionStore";
 import { usePracticeSettingsStore } from "@/stores/usePracticeSettingsStore";
+import { completeSession } from '@/services/sessionApi';
 
 import styles from "./PracticePageClient.module.css";
 
 export default function PracticePageClient() {
   const router = useRouter();
+
+const sessionId = usePracticeSessionStore(
+  state => state.sessionId
+);
 
   const questions = usePracticeSessionStore((state) => state.questions);
 
@@ -55,20 +60,60 @@ export default function PracticePageClient() {
     };
   }, [ultimateMode, isAnswered, isLastQuestion, goToNextQuestion]);
 
-  const handleFinish = () => {
+ const handleFinish = async () => {
+  if (!sessionId) {
+    return;
+  }
+
+  const total = questions.length;
+  const correct = correctAnswersCount;
+
+  const accuracy = Math.round(
+    (correct / total) * 100
+  );
+
+  const averageTime = Math.round(
+    elapsedSeconds / total
+  );
+
+  try {
+    await completeSession(sessionId, {
+      finishedAt: Date.now(),
+
+      completedTasksCount: total,
+
+      correctAnswersCount: correct,
+
+      accuracy,
+
+      totalTime: elapsedSeconds,
+
+      averageTime,
+
+      status: 'completed',
+    });
+
     sessionStorage.setItem(
-      "nmt-practice-result",
+      'nmt-practice-result',
       JSON.stringify({
-        total: questions.length,
-        correct: correctAnswersCount,
+        total,
+        correct,
+        accuracy,
         totalTime: elapsedSeconds,
-      }),
+        averageTime,
+      })
     );
 
     clearSession();
 
-    router.push("/results");
-  };
+    router.push('/results');
+  } catch (error) {
+    console.error(
+      'Failed to complete session:',
+      error
+    );
+  }
+};
 
   if (!hasHydrated) {
     return (

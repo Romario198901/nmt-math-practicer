@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import PracticeSetup from "@/components/PracticeSetup/PracticeSetup";
 import Container from "@/components/Container/Container";
+import PracticeSetup from "@/components/PracticeSetup/PracticeSetup";
 
 export const metadata: Metadata = {
   title: "НМТ Математика — тренажер",
@@ -9,11 +9,22 @@ export const metadata: Metadata = {
     "Налаштуйте тренування з математики для підготовки до НМТ: оберіть тему, складність, тип і кількість завдань.",
 };
 
-export default function HomePage() {
+interface HomePageProps {
+  searchParams: Promise<{
+    theme?: string | string[];
+  }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const params = await searchParams;
+
+  const initialThemeId =
+    typeof params.theme === "string" ? params.theme : undefined;
+
   return (
     <main>
       <Container>
-        <PracticeSetup />
+        <PracticeSetup initialThemeId={initialThemeId} />
       </Container>
     </main>
   );

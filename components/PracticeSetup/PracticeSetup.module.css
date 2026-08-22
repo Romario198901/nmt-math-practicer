@@ -130,7 +130,8 @@
 }
 
 .primaryButton,
-.secondaryButton {
+.secondaryButton,
+.progressButton {
   min-height: 2.75rem;
   padding-inline: 1.25rem;
 
@@ -144,7 +145,17 @@
     color var(--transition-main),
     opacity var(--transition-main);
 }
+.progressButton {
+  color: var(--color-primary);
 
+  background-color: var(--color-surface);
+  border: 0.0625rem solid var(--color-primary);
+}
+
+.progressButton:hover:not(:disabled) {
+  color: var(--color-text-light);
+  background-color: var(--color-primary);
+}
 .primaryButton {
   color: var(--color-text-light);
   background-color: var(--color-primary);
@@ -168,7 +179,7 @@
 .secondaryButton:hover:not(:disabled) {
   background-color: var(--color-border);
 }
-
+.progressButton:disabled,
 .primaryButton:disabled,
 .secondaryButton:disabled {
   opacity: 0.6;
@@ -192,7 +203,7 @@
   }
 
   .actions {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .title {

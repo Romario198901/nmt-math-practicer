@@ -11,9 +11,9 @@ export const createPracticeSession = (
 ): Question[] => {
   let filteredQuestions = [...questions];
 
-  if (settings.topic !== "all") {
+  if (settings.themeId !== "all") {
     filteredQuestions = filteredQuestions.filter(
-      (question) => question.category === settings.topic,
+      (question) => question.themeId === settings.themeId,
     );
   }
 
